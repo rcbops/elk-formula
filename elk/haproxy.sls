@@ -5,13 +5,13 @@ haproxy-software:
 
 /etc/haproxy/haproxy.cfg:
   file.managed:
-    - source: salt://elasticsearch-logstash-kibana-formula/files/haproxy/haproxy.cfg
+    - source: salt://elk-formula/files/haproxy/haproxy.cfg
     - template: jinja
     - makedirs: True
 
 /etc/default/haproxy:
   file.managed:
-    - source: salt://elasticsearch-logstash-kibana-formula/files/haproxy/default-haproxy
+    - source: salt://elk-formula/files/haproxy/default-haproxy
     - makedirs: True
 
 haproxy-service:
