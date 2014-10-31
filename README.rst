@@ -18,5 +18,8 @@ Or if applying explicitly:
 salt <sync-targets> state.sls elk-formula.elk
 ```
 
+The Kibana UI will run on port 8080 (This is editable via pillar kibana:httpport)
+From here the Simple UI will is a good place to start viewing data.
+
 #### Helpful links
 * [ELK](http://www.elasticsearch.org/overview/)
