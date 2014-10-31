@@ -126,7 +126,7 @@ logstash_service:
 /etc/logstash/conf.d/nginx_access.conf:
   file.managed:
     - template: jinja
-    - source: salt://elasticsearch-logstash-kibana-formula/files/logstash/nginx_access.conf
+    - source: salt://elk-formula/files/logstash/nginx_access.conf
     - mode: 644
     - user: logstash
     - group: logstash
@@ -158,7 +158,7 @@ kibana_config_js:
   file.managed:
     - name: '{{ kibana_wwwroot }}config.js'
     - template: jinja
-    - source: salt://elasticsearch-logstash-kibana-formula/files/kibana/config.js
+    - source: salt://elk-formula/files/kibana/config.js
     - context:
        kibana_port: {{ kibana_port }}
 
@@ -181,7 +181,7 @@ nginx_static_site:
 
   file.managed:
     - template: jinja
-    - source: salt://elasticsearch-logstash-kibana-formula/files/nginx_kibana_site
+    - source: salt://elk-formula/files/nginx_kibana_site
     - name: /etc/nginx/sites-enabled/kibana
     - mode: 644
     - context:
