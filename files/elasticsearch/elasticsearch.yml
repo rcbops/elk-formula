@@ -1,5 +1,5 @@
 # Elasticsearch configuration for {{ grains['fqdn'] }}
 # Cluster: {{ grains['elasticsearch']['cluster'] }}
 
-cluster.name: "{{ salt['pillar.get']('elasticsearch:cluster', 'es-cluster-01'}}"
+cluster.name: "{{ salt['pillar.get']('elasticsearch:cluster', 'es-cluster-01') }}"
 node.name: "{{ grains['fqdn'] }}"
