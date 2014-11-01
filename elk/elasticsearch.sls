@@ -51,7 +51,7 @@ elasticsearch_repo:
 {% endwith %}
 {% endwith %}
 
-openjdk-7-jre 
+openjdk-7-jre:
   pkg.installed
 
 elasticsearch_soft:
