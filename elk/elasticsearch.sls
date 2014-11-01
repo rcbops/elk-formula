@@ -49,6 +49,7 @@ elasticsearch_repo:
     - contents: deb {{ elastic_repo }} stable main
 
 {% endwith %}
+{% endwith %}
 
 elasticsearch_soft:
   pkg.installed:
