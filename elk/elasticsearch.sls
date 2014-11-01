@@ -64,7 +64,7 @@ elasticsearch_soft:
     - group: root
     - mode: 644
     - template: jinja
-    - source: salt://elasticsearch/elasticsearch.yml
+    - source: salt://elk-formula/files/elasticsearch/elasticsearch.yml
 
 elastic_service:
   pkg.installed:
