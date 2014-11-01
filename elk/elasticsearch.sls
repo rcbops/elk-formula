@@ -51,11 +51,15 @@ elasticsearch_repo:
 {% endwith %}
 {% endwith %}
 
+openjdk-7-jre 
+  pkg.installed
+
 elasticsearch_soft:
   pkg.installed:
     - name: elasticsearch
     - require:
       - file: elasticsearch_repo
+      - pkg: openjdk-7-jre 
 
 /etc/elasticsearch/elasticsearch.yml:
   file:
