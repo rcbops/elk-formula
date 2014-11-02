@@ -1,5 +1,5 @@
 {% with repo_key_file = '/root/elastic_repo.key' %}
-{% with elastic_repo = 'http://packages.elasticsearch.org/elasticsearch/1.3/debian' %}
+{% with elastic_repo_loc = 'http://packages.elasticsearch.org/elasticsearch/1.3/debian' %}
 
 elastic_repos_key:
   file.managed:
@@ -46,7 +46,7 @@ elasticsearch_repo:
     - name: /etc/apt/sources.list.d/elasticsearch.list
     - require:
       - cmd: elastic_repos_key
-    - contents: deb {{ elastic_repo }} stable main
+    - contents: deb {{ elastic_repo_loc }} stable main
 
 {% endwith %}
 {% endwith %}

@@ -1,9 +1,9 @@
 {% set kibana_version = "3.0.1" %}
 {% set kibana_md5 = "210e66901b22304a2bada3305955b115" %}
-{% with logstash_repo = 'http://packages.elasticsearch.org/logstash/1.4/debian' %}
+{% with logstash_repo_loc = 'http://packages.elasticsearch.org/logstash/1.4/debian' %}
 {% with repo_key_file = '/root/elastic_repo.key' %}
 
-elastic_repos_key:
+logstash_repos_key:
   file.managed:
     - name: {{ repo_key_file }}
     - contents: |+
@@ -41,14 +41,14 @@ elastic_repos_key:
   cmd.run:
     - name: cat {{ repo_key_file }} | apt-key add -
     - require:
-      - file: elastic_repos_key
+      - file: logstash_repos_key
 
 logstash_repo:
   file.managed:
     - name: /etc/apt/sources.list.d/logstash.list
     - require:
-      - cmd: elastic_repos_key
-    - contents: deb {{ logstash_repo }} stable main
+      - cmd: logstash_repos_key
+    - contents: deb {{ logstash_repo_loc }} stable main
 
 {% endwith %}
 {% endwith %}
