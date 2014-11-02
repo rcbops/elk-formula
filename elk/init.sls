@@ -1,6 +1,5 @@
 {% set kibana_version = "3.0.1" %}
 {% set kibana_md5 = "210e66901b22304a2bada3305955b115" %}
-{% with logstash_repo = 'http://packages.elasticsearch.org/logstash/1.4/debian' %}
 {% with repo_key_file = '/root/elastic_repo.key' %}
 
 elastic_repos_key:
@@ -43,21 +42,33 @@ elastic_repos_key:
     - require:
       - file: elastic_repos_key
 
-logstash_repo:
+{% for soft, repo in {
+  'elasticsearch': 'http://packages.elasticsearch.org/elasticsearch/1.3/debian',
+  'logstash': 'http://packages.elasticsearch.org/logstash/1.4/debian',
+  }.iteritems() %}
+{{ soft }}_repo:
   file.managed:
-    - name: /etc/apt/sources.list.d/logstash.list
+    - name: /etc/apt/sources.list.d/{{ soft }}.list
     - require:
       - cmd: elastic_repos_key
-    - contents: deb {{ logstash_repo }} stable main
+    - contents: deb {{ repo }} stable main
 
-{% endwith %}
+{% endfor %}
 {% endwith %}
 
 {% set kibana_port = salt['pillar.get']('kibana:httpport', '8080') %}
+{% set elastic_port = salt['pillar.get']('elasticsearch:httpport', '9200') %}
 {% set server_name = salt['pillar.get']('kibana:site_name', 'kibana.cdp') %}
 {% set wwwhome = salt['pillar.get']('kibana:wwwhome', '/var/www') %}
 {% set kibana_wwwroot = wwwhome + '/' + server_name + '/' %}
 {% set elastic_htpasswd_file = '/etc/nginx/elastic_passwd' %}
+
+
+elasticsearch_soft:
+  pkg.installed:
+    - name: elasticsearch
+    - require:
+      - file: elasticsearch_repo
 
 logstash_soft:
   pkg.installed:
@@ -77,6 +88,28 @@ elastic_htpasswd:
     - contents_pillar: elastic:htpasswd
     - group: www-data
     - mode: 640
+
+elastic_conf:
+  file.managed:
+    - name: '/etc/elasticsearch/elasticsearch.yml'
+    - contents: |+
+          network.bind_host: 127.0.0.1
+    - mode: 644
+    - require:
+      - file: elasticsearch_repo
+
+elastic_service:
+  pkg.installed:
+    - name: elasticsearch
+    - require:
+      - file: elastic_conf
+  service.running:
+    - name: elasticsearch
+    - enable: True
+    - watch:
+      - file: elastic_conf
+    - require:
+      - pkg: elasticsearch
 
 logstash_service:
   pkg.installed:

@@ -1,5 +1,16 @@
 {% set kibana_version = "3.0.1" %}
 {% set kibana_md5 = "210e66901b22304a2bada3305955b115" %}
+{% set kibana_port = salt['pillar.get']('kibana:httpport', '8080') %}
+{% set elastic_port = salt['pillar.get']('elasticsearch:httpport', '9200') %}
+{% set server_name = salt['pillar.get']('kibana:site_name', 'kibana.cdp') %}
+{% set wwwhome = salt['pillar.get']('kibana:wwwhome', '/var/www') %}
+{% set kibana_wwwroot = wwwhome + '/' + server_name + '/' %}
+{% set elastic_htpasswd_file = '/etc/nginx/elastic_passwd' %}
+
+nginx_sites_dir:
+  file.directory:
+    - name: /etc/nginx/sites-enabled
+    - makedirs: True
 
 elastic_htpasswd:
   file.managed:
@@ -31,7 +42,6 @@ move_kibana_files:
     - cwd: /tmp
     - require:
       - cmd: unzip_kibana
-      - file: kibana_static_dir
 kibana_config_js:
   file.managed:
     - name: '{{ kibana_wwwroot }}config.js'
