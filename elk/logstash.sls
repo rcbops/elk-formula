@@ -72,10 +72,10 @@ logstash_service:
     - watch:
       - file: /etc/logstash/conf.d/*
 
-/etc/logstash/conf.d/nginx_access.conf:
+/etc/logstash/conf.d/simple_syslog.conf:
   file.managed:
     - template: jinja
-    - source: salt://elk-formula/files/logstash/nginx_access.conf
+    - source: salt://elk-formula/files/logstash/simple_syslog.conf
     - mode: 644
     - user: logstash
     - group: logstash

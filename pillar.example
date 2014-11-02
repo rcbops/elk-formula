@@ -1,2 +1,4 @@
 elasticsearch:
   cluster: es-cluster-01
+kibana:
+  httpport: 8080

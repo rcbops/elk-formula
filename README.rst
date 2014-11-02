@@ -1,7 +1,30 @@
 elasticsearch-logstash-kibana
 =============================
 
-Saltstack formulae for installing logstash server with kibana and logstash shippers on your other machines
+Saltstack formulae for installing logstash server with kibana and logstash shippers on your other machines.
+Requires at least 1 standalone haproxy, alongside 1 node with elasticsearch, kibana and logstash.
+ELK roles can be applied to as many servers as desired and be split up or combined.
+
+** Nothing will show up in Kibana until you configure a server to send syslog events to haproxy node on port 5544 or create your own logstash config. (See logstash info below) **
+
+
+
+
+Kibana
+------
+runs on port 8080 (this can be changed via pillar). In the UI the "Sample Dashboard" is a good place to start.
+
+Logstash 
+--------
+has an example config that listens for syslog events on 5544 and saves them to elasticsearch. To make this work rsyslog should be configured on some node to ship logs to haproxy node on 5544 (this will load balance between available logstash nodes). There is also another simple example for logstash that listens to /var/log/nginx/access.log but it needs nginx to be installed. To configure rsyslog to forward logs some examples can be found at the following links:
+https://community.ulyaoth.net/threads/how-to-install-logstash-kibana-on-fedora-using-rsyslog-as-shipper.11/
+http://capnjosh.com/blog/forwarding-logs-to-logstash-1-4-with-rsyslog-working-nginx-logs-too/
+
+Elasticsearch
+-------------
+nodes automatically become part of a cluster and listen on 9200 and 9300
+
+
 
 .. note::
 
@@ -18,8 +41,7 @@ Or if applying explicitly:
 salt <sync-targets> state.sls elk-formula.elk
 ```
 
-The Kibana UI will run on port 8080 (This is editable via pillar kibana:httpport)
-From here the Simple UI will is a good place to start viewing data.
-
 #### Helpful links
 * [ELK](http://www.elasticsearch.org/overview/)
+* [RSYSLOG_FORWARDING] (https://community.ulyaoth.net/threads/how-to-install-logstash-kibana-on-fedora-using-rsyslog-as-shipper.11/)
+* [RSYSLOG_FORWARDING2] (http://capnjosh.com/blog/forwarding-logs-to-logstash-1-4-with-rsyslog-working-nginx-logs-too/)
