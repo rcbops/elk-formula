@@ -1,5 +1,7 @@
+{%- set hosts = salt['mine.get']('roles:elk', 'network.ip_addrs', 'grain') %}
 # Elasticsearch configuration for {{ grains['fqdn'] }}
-# Cluster: salt['pillar.get']('elasticsearch:cluster', 'es-cluster-01')
+# Cluster: {{ salt['pillar.get']('elasticsearch:cluster', 'es-cluster-01') }}
 
 cluster.name: "{{ salt['pillar.get']('elasticsearch:cluster', 'es-cluster-01') }}"
 node.name: "{{ grains['fqdn'] }}"
+discovery.zen.ping.unicast.hosts: [{%- for id, ips in hosts.iteritems() -%}"{{ ips[0] }}",{%- endfor -%}]
