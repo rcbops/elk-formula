@@ -1,4 +1,4 @@
-{%- set hosts = salt['mine.get']('roles:elk', 'network.ip_addrs', 'grain') %}
+{%- set hosts = salt['mine.get']('roles:elasticsearch', 'network.ip_addrs', 'grain') %}
 # Elasticsearch configuration for {{ grains['fqdn'] }}
 # Cluster: {{ salt['pillar.get']('elasticsearch:cluster', 'es-cluster-01') }}
 
