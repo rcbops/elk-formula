@@ -10,7 +10,7 @@
 # If you use this, you'll want to point config.js at http://FQDN:80/ instead of
 # http://FQDN:9200
 #
-{%- set haproxy_host = salt['mine.get']('roles:haproxy', 'network.ip_addrs', 'grain').values()[0] %}
+{%- set haproxy_host = salt['mine.get']('roles:haproxy', 'network.ip_addrs', 'grain').values()[0][0] %}
 server {
   listen        {{ kibana_port }};
   server_name   {{ server_name }};
