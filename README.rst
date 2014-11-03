@@ -20,6 +20,37 @@ has an example config that listens for syslog events on 5544 and saves them to e
 https://community.ulyaoth.net/threads/how-to-install-logstash-kibana-on-fedora-using-rsyslog-as-shipper.11/
 http://capnjosh.com/blog/forwarding-logs-to-logstash-1-4-with-rsyslog-working-nginx-logs-too/
 
+
+
+/etc/rsyslog.d/logstash.conf
+$ModLoad imfile
+
+$InputFileName /var/log/nginx/error.log
+$InputFileTag nginx-errorlog:
+$InputFileStateFile state-nginx-errorlog
+$InputRunFileMonitor
+
+$InputFileName /var/log/nginx/access.log
+$InputFileTag nginx-accesslog:
+$InputFileStateFile state-nginx-accesslog
+$InputRunFileMonitor
+
+$InputFilePollInterval 10
+
+if $programname == ‘nginx-errorlog’ then @{{ haproxy_ip }}:5544
+if $programname == ‘nginx-errorlog’ then ~
+if $programname == ‘nginx-accesslog’ then @{{ haproxy_ip }}:5544
+if $programname == ‘nginx-accesslog’ then ~
+
+
+
+
+
+
+
+
+
+
 Elasticsearch
 -------------
 nodes automatically become part of a cluster and listen on 9200 and 9300
