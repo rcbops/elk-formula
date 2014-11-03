@@ -50,23 +50,36 @@ kibana_config_js:
     - context:
        kibana_port: {{ kibana_port }}
 
-nginx_static_site:
+nginx_service:
   pkg.installed:
     - name: nginx
     - require:
-      - file: nginx_static_site
       - file: kibana_static_dir
       - file: kibana_htpasswd
-
   service.running:
     - name: nginx
     - reload: True
     - enable: True
     - watch:
-      - file: nginx_static_site
+      - file: nginx_default_file
+      - file: nginx_default_file_en
+      - file: nginx_kibana_file
     - require:
       - service: elasticsearch
 
+nginx_default_file:
+  file.absent:
+    - name: /etc/nginx/sites-available/default
+    - require:
+      - pkg: nginx
+
+nginx_default_file_en:
+  file.absent:
+    - name: /etc/nginx/sites-enabled/default
+    - require:
+      - pkg: nginx
+
+nginx_kibana_file:
   file.managed:
     - template: jinja
     - source: salt://elk-formula/files/kibana/nginx_kibana_site
