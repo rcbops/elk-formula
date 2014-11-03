@@ -1,4 +1,7 @@
-elastic:
-  htpasswd: |
-    admin:{SHA}<read $file after running 'htpasswd -c -s file username'>
-
+elasticsearch:
+  cluster: es-cluster-01
+kibana:
+  httpport: 8080
+  site_name: kibana.cdp
+  wwwhome: /var/www
+  htpasswd: HTPASSWD_STR

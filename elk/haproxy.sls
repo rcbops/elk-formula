@@ -1,3 +1,5 @@
+{% set kibana_port = salt['pillar.get']('kibana:httpport', '8080') %}
+
 haproxy-software:
   pkg.installed:
     - pkgs:
@@ -7,6 +9,8 @@ haproxy-software:
   file.managed:
     - source: salt://elk-formula/files/haproxy/haproxy.cfg
     - template: jinja
+    - context:
+       kibana_port: {{ kibana_port }}
     - makedirs: True
 
 /etc/default/haproxy:
