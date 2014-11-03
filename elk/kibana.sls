@@ -69,7 +69,7 @@ nginx_static_site:
 
   file.managed:
     - template: jinja
-    - source: salt://elk-formula/files/nginx_kibana_site
+    - source: salt://elk-formula/files/kibana/nginx_kibana_site
     - name: /etc/nginx/sites-enabled/kibana
     - mode: 644
     - context:
