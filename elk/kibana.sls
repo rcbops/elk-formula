@@ -1,21 +1,21 @@
 {% set kibana_version = "3.0.1" %}
 {% set kibana_md5 = "210e66901b22304a2bada3305955b115" %}
+{% set kibana_htpasswd_file = '/etc/nginx/elastic_passwd' %}
+
 {% set kibana_port = salt['pillar.get']('kibana:httpport', '8080') %}
-{% set elastic_port = salt['pillar.get']('elasticsearch:httpport', '9200') %}
 {% set server_name = salt['pillar.get']('kibana:site_name', 'kibana.cdp') %}
 {% set wwwhome = salt['pillar.get']('kibana:wwwhome', '/var/www') %}
 {% set kibana_wwwroot = wwwhome + '/' + server_name + '/' %}
-{% set elastic_htpasswd_file = '/etc/nginx/elastic_passwd' %}
 
 nginx_sites_dir:
   file.directory:
     - name: /etc/nginx/sites-enabled
     - makedirs: True
 
-elastic_htpasswd:
+kibana_htpasswd:
   file.managed:
-    - name: {{ elastic_htpasswd_file }}
-    - contents_pillar: elastic:htpasswd
+    - name: {{ kibana_htpasswd_file }}
+    - contents_pillar: kibana:htpasswd
     - group: www-data
     - mode: 640
 
@@ -56,7 +56,7 @@ nginx_static_site:
     - require:
       - file: nginx_static_site
       - file: kibana_static_dir
-      - file: elastic_htpasswd
+      - file: kibana_htpasswd
 
   service.running:
     - name: nginx
@@ -76,6 +76,6 @@ nginx_static_site:
        kibana_port: {{ kibana_port }}
        server_name: {{ server_name }}
        kibana_wwwroot: {{ kibana_wwwroot }}
-       elastic_htpasswd_file: {{ elastic_htpasswd_file }}
+       kibana_htpasswd_file: {{ kibana_htpasswd_file }}
 
 
