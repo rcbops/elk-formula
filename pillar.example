@@ -1,5 +1,11 @@
 elasticsearch:
   cluster: es-cluster-01
+  ssl_port: 9443
+  keystore_password: 'OBF:1nc01vuz1w8f1w1c1rbu1rac1w261w9b1vub1ndq'
+  users:
+    superuser: "Adm1n,admin,readwrite"
+    user: "Passw0rd,readwrite"
+
 kibana:
   httpport: 8080
   site_name: kibana.cdp
