@@ -49,6 +49,8 @@ kibana_config_js:
     - source: salt://elk-formula/files/kibana/config.js
     - context:
        kibana_port: {{ kibana_port }}
+    - require:
+      - file: kibana_static_dir
 
 nginx_service:
   pkg.installed:
@@ -85,6 +87,9 @@ nginx_kibana_file:
     - source: salt://elk-formula/files/kibana/nginx_kibana_site
     - name: /etc/nginx/sites-enabled/kibana
     - mode: 644
+    - require:
+      - file: nginx_sites_dir
+      - pkg: nginx_service
     - context:
        kibana_port: {{ kibana_port }}
        server_name: {{ server_name }}
