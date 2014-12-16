@@ -54,8 +54,6 @@ if $programname == ‘nginx-accesslog’ then ~
 Elasticsearch
 -------------
 nodes automatically become part of a cluster and listen on 9200 and 9300
-Jetty Auth:
-https://github.com/sonian/elasticsearch-jetty
 
 
 

@@ -5,8 +5,3 @@
 cluster.name: "{{ salt['pillar.get']('elasticsearch:cluster', 'es-cluster-01') }}"
 node.name: "{{ grains['fqdn'] }}"
 discovery.zen.ping.unicast.hosts: [{%- for id, ips in hosts.iteritems() -%}"{{ ips[0] }}",{%- endfor -%}]
-http.type: com.sonian.elasticsearch.http.jetty.JettyHttpServerTransportModule
-sonian.elasticsearch.http.jetty:
-    config: jetty.xml,jetty-ssl.xml
-    ssl_port: {{ salt['pillar.get']('elasticsearch:ssl_port', 9443) }}
-    keystore_password: "{{ salt['pillar.get']('elasticsearch:keystore_password', 'OBF:1nc01vuz1w8f1w1c1rbu1rac1w261w9b1vub1ndq') }}"

@@ -1,7 +1,5 @@
-{% set kibana_version = "3.0.1" %}
-{% set kibana_md5 = "210e66901b22304a2bada3305955b115" %}
 {% with logstash_repo_loc = 'http://packages.elasticsearch.org/logstash/1.4/debian' %}
-{% with repo_key_file = '/root/elastic_repo.key' %}
+{% with repo_key_file = '/root/logstash_repo.key' %}
 
 logstash_repos_key:
   file.managed:
@@ -56,19 +54,16 @@ logstash_repo:
 logstash_soft:
   pkg.installed:
     - name: logstash
+    - refresh: True
     - require:
       - file: logstash_repo
-      - pkg: elasticsearch
 
 logstash_service:
-  pkg.installed:
-  - name: logstash
-  - require:
-    - file: logstash_repo
-    - service: elasticsearch
   service.running:
     - name: logstash
     - enable: True
+    - require:
+      - pkg: logstash_soft
     - watch:
       - file: /etc/logstash/conf.d/*
 
