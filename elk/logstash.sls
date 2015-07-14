@@ -74,3 +74,11 @@ logstash_service:
     - mode: 644
     - user: logstash
     - group: logstash
+
+/etc/logstash/conf.d/simple_http.conf:
+  file.managed:
+    - template: jinja
+    - source: salt://elk-formula/files/logstash/simple_http.conf
+    - mode: 644
+    - user: logstash
+    - group: logstash
