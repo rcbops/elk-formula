@@ -8,7 +8,6 @@ logstash_repo:
   pkgrepo.managed:
     - humanname: Logstash Repo
     - name: deb http://packages.elasticsearch.org/logstash/1.5/debian stable main
-    - file: /etc/apt/source.list.d/logstash.list
     - gpgkey: https://packages.elasticsearch.org/GPG-KEY-elasticsearch
 
 logstash_soft:
