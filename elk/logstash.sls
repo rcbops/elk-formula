@@ -15,7 +15,7 @@ logstash_soft:
     - name: logstash
     - refresh: True
     - require:
-      - file: logstash_repo
+      - pkgrepo: logstash_repo
 
 logstash_service:
   service.running:
